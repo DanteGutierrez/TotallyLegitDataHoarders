@@ -10,31 +10,41 @@ exports.index = (req, res) => {
     });
 };
 
-const findResult = async (collectionName) => {
+const findResult = async (collectionName, requirements) => {
     if (collectionName != "") {
         let collection = db.collection(collectionName);
         await client.connect();
-        let findResult = await collection.find({}).toArray();
+        let findResult = await collection.find(requirements).toArray();
         client.close();
-        return findResult[0];
+        return findResult;
     }
     return null;
+};
+const getRandomResult = (resultList) => {
+    let random = Math.floor(Math.random() * resultList.length);
+    return resultList[random];
 };
 
 exports.type = async (req, res) => {
     let collectionName = req.params.type;
-    let result = await findResult(collectionName);
+    let resultList = await findResult(collectionName, {});
+    let result = getRandomResult(resultList);
+    let bonusList;
     switch (collectionName) {
         case "accounts":
+            bonusList = await findResult("following", {followed: result.profile.username});
             res.render('account', {
                 title: 'Account',
-                account: result
+                account: result,
+                followers: bonusList
             });
             break;
         case "posts":
+            bonusList = await findResult("comments", {postid: result._id});
             res.render('post', {
                 title: "Post",
-                post: result
+                post: result,
+                comments: bonusList
             });
             break;
         default:

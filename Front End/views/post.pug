@@ -2,7 +2,11 @@ extends layout
 
 block content 
     div(class="container vertical")
-        div(class="container vertical") Account Information:
-            p #{post.poster}
+        div(class="container vertical") Post By: #{post.poster}
             p #{post.picture}
             p #{post.desc}
+        div(class="container")
+            p Comments: 
+        for comment in comments 
+            div(class="container")
+                p #{comment.commenter}: #{comment.words}

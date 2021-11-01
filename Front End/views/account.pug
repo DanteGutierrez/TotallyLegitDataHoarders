@@ -10,3 +10,8 @@ block content
             p #{account.pii.email}
             p #{account.pii.phone}
             p #{account.pii.location.city}, #{account.pii.location.state}, #{account.pii.location.country}
+        div(class="container")
+            p Followers:
+        for follower in followers
+            div(class="container vertical")
+                p #{follower.follower}

@@ -32,6 +32,8 @@ db2.setSlaveOK()
 
 exit
 
+exit
+
 docker exec -it TLDH3 /bin/bash
 mongosh
 

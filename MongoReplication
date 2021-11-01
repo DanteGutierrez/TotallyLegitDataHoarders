@@ -13,7 +13,13 @@ db = (new Mongo('localhost:27017')).getDB('test')
 
 config = {"_id":"TLDH-set","members":[{"_id":0,"host":"TLDH1:27017"},{"_id":1,"host":"TLDH2:27017"},{"_id":2,"host":"TLDH3:27017"}]}     
 
+rs.initiate(config)
+
+stepUp()  # might be necessary
+
 primary
+
+exit
 
 exit
 
@@ -22,7 +28,9 @@ mongosh
 
 db2 = (new Mongo('TLDH2:27017')).getDB('test')
 
-db2.setSlaveOK()
+# db2.setSlaveOK()
+
+exit
 
 exit
 
@@ -31,4 +39,4 @@ mongosh
 
 db3 = (new Mongo('TLDH2:27017')).getDB('test')
 
-db3.setSlaveOK()
+# db3.setSlaveOK()

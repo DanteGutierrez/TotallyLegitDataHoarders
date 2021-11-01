@@ -1,0 +1,12 @@
+extends layout 
+
+block content 
+    div(class="container vertical")
+        div(class="container vertical") Account Information:
+            p #{account.profile.username}
+            p #{account.profile.bio}
+            p #{account.pii.firstname} #{account.pii.lastname}
+            p #{account.pii.dob}
+            p #{account.pii.email}
+            p #{account.pii.phone}
+            p #{account.pii.location.city}, #{account.pii.location.state}, #{account.pii.location.country}

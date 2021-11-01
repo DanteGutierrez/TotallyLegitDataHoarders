@@ -1,16 +1,44 @@
-const mongo = require("mongodb").MongoClient;
-const url = "mongodb://localhost:27017";
-const dbName = "exampleDB";
+const { MongoClient, ObjectId } = require('mongodb');
+const url = 'mongodb://localhost:27017';
+const client = new MongoClient(url);
+const dbName = 'test';
+const db = client.db(dbName);
+
 exports.index = (req, res) => {
     res.render('index', {
-        title: 'Home',
+        title: "Home"
     });
 };
-mongo.connect(url, (err, client) => {
-    if (err) {
-        console.error(err);
-        return;
+
+const findResult = async (collectionName) => {
+    if (collectionName != "") {
+        let collection = db.collection(collectionName);
+        await client.connect();
+        let findResult = await collection.find({}).toArray();
+        client.close();
+        return findResult[0];
     }
-    console.log('Connected successfully to server');
-    const db = client.db(dbName);
-});
+    return null;
+};
+
+exports.type = async (req, res) => {
+    let collectionName = req.params.type;
+    let result = await findResult(collectionName);
+    switch (collectionName) {
+        case "accounts":
+            res.render('account', {
+                title: 'Account',
+                account: result
+            });
+            break;
+        case "posts":
+            res.render('post', {
+                title: "Post",
+                post: result
+            });
+            break;
+        default:
+            res.redirect('/');
+            break;
+    }
+};

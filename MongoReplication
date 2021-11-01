@@ -28,7 +28,7 @@ mongosh
 
 db2 = (new Mongo('TLDH2:27017')).getDB('test')
 
-db2.setSlaveOK()
+# db2.setSlaveOK()
 
 exit
 
@@ -39,4 +39,4 @@ mongosh
 
 db3 = (new Mongo('TLDH2:27017')).getDB('test')
 
-db3.setSlaveOK()
+# db3.setSlaveOK()

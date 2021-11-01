@@ -1,0 +1,27 @@
+extends layout 
+
+block content 
+    form(class="container vertical" method="POST" action="/create/account" onSubmit="return mySubmit()")
+        p Username:
+        input(type="text" id="Username" name="username")
+        p Bio:
+        input(type="text" id="Bio" name="bio")
+        p First Name:
+        input(type="text" id="fName" name="fname")
+        p Last Name: 
+        input(type="text" id="lName" name="lname")
+        p Date of Birth:
+        input(type="text" id="DOB" name="dob")
+        p Email:
+        input(type="text" id="Email" name="email")
+        p Phone Number:
+        input(type="text" id="Phone" name="phone")
+        p City:
+        input(type="text" id="City" name="city")
+        p State:
+        input(type="text" id="State" name="state")
+        p Country:
+        input(type="text" id="Country" name="country")
+        div(id="Errors")
+        input(type="submit" id="Submit")
+    script(src="../accountScript.js")

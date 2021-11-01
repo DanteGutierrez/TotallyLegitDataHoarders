@@ -1,0 +1,34 @@
+docker network create TLDH
+
+docker run -d -p 3011:27017 --name TLDH1 --net TLDH mongo mongod --replSet TLDH-set
+
+docker run -d -p 3012:27017 --name TLDH2 --net TLDH mongo mongod --replSet TLDH-set
+
+docker run -d -p 3013:27017 --name TLDH3 --net TLDH mongo mongod --replSet TLDH-set
+
+docker exec -it TLDH1 /bin/bash
+mongosh
+
+db = (new Mongo('localhost:27017')).getDB('test')
+
+config = {"_id":"TLDH-set","members":[{"_id":0,"host":"TLDH1:27017"},{"_id":1,"host":"TLDH2:27017"},{"_id":2,"host":"TLDH3:27017"}]}     
+
+primary
+
+exit
+
+docker exec -it TLDH2 /bin/bash
+mongosh
+
+db2 = (new Mongo('TLDH2:27017')).getDB('test')
+
+db2.setSlaveOK()
+
+exit
+
+docker exec -it TLDH3 /bin/bash
+mongosh
+
+db3 = (new Mongo('TLDH2:27017')).getDB('test')
+
+db3.setSlaveOK()

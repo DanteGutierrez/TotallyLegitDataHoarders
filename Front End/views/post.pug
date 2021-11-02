@@ -5,8 +5,15 @@ block content
         div(class="container vertical") Post By: #{post.poster}
             p #{post.picture}
             p #{post.desc}
-        div(class="container")
+        form(class="container vertical" method="POST" action=`/post?id=${post._id}`)
+            label(for="commenter") Username: 
+            input(type="text" name="commenter" required="required" pattern="^.+$" placeholder="username")
+            label(for="words") Comment: 
+            input(type="text" name="words" required="required" pattern="^.+$" placeholder="I love the post")
+            input(type="hidden" name="postid" value=post._id)
+            input(type="submit" value="Comment!")
+        div(class="container vertical")
             p Comments: 
-        for comment in comments 
-            div(class="container")
-                p #{comment.commenter}: #{comment.words}
+            for comment in comments 
+                div(class="container horizontal")
+                    p #{comment.commenter}: #{comment.words}

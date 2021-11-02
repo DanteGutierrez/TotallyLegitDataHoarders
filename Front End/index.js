@@ -18,8 +18,10 @@ app.get('/', routes.index)
 app.get('/account', routes.account);
 app.get('/post', routes.post);
 app.get('/create/account', routes.accountCreate);
-app.post('/create/account',urlencodedParser , routes.postedAccount);
+app.post('/create/account', urlencodedParser, routes.postedAccount);
+app.post('/account', urlencodedParser, routes.followedAccount);
 app.get('/create/post', routes.postCreate);
-app.post('/create/post',urlencodedParser , routes.postedPost);
+app.post('/create/post', urlencodedParser, routes.postedPost);
+app.post('/post', urlencodedParser, routes.commentedPost);
 
 app.listen(3000);

@@ -12,8 +12,13 @@ block content
                 p #{account.pii.email}
                 p #{account.pii.phone}
                 p #{account.pii.location.city}, #{account.pii.location.state}, #{account.pii.location.country}
-        div(class="container")
+        form(class="container horizontal" method="POST" action=`/account?id=${account._id}`)
+            label(for="username") Who Are You?: 
+            input(type="hidden" name="followed" value=account.profile.username)
+            input(type="text" name="follower" required="required" pattern="^.+$" placeholder="username")
+            input(type="submit" value="Follow!")
+        div(class="container vertical")
             p Followers:
-        for follower in followers
-            div(class="container vertical")
-                p #{follower.follower}
+            for follower in followers
+                div(class="container vertical")
+                    p #{follower.follower}

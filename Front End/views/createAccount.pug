@@ -2,26 +2,26 @@ extends layout
 
 block content 
     form(class="container vertical" method="POST" action="/create/account" onSubmit="return mySubmit()")
-        p Username:
-        input(type="text" id="Username" name="username")
-        p Bio:
-        input(type="text" id="Bio" name="bio")
-        p First Name:
-        input(type="text" id="fName" name="fname")
-        p Last Name: 
-        input(type="text" id="lName" name="lname")
-        p Date of Birth:
-        input(type="text" id="DOB" name="dob")
-        p Email:
-        input(type="text" id="Email" name="email")
-        p Phone Number:
-        input(type="text" id="Phone" name="phone")
-        p City:
-        input(type="text" id="City" name="city")
-        p State:
-        input(type="text" id="State" name="state")
-        p Country:
-        input(type="text" id="Country" name="country")
+        label(for="username") Username:
+        input(type="text" id="Username" name="username" placeholder="username")
+        label(for="bio") Bio:
+        input(type="text" id="Bio" name="bio" placeholder="256 char max" maxlength=256)
+        label(for="fname") First Name:
+        input(type="text" id="fName" name="fname" placeholder="John")
+        label(for="lname") Last Name: 
+        input(type="text" id="lName" name="lname" placeholder="Doe")
+        label(for="dob") Date of Birth:
+        input(type="text" id="DOB" name="dob" placeholder="YYYY-MM-DD" maxlength=10)
+        label(for="email") Email:
+        input(type="text" id="Email" name="email" placeholder="johndoe@example.com")
+        label(for="phone") Phone Number:
+        input(type="text" id="Phone" name="phone" placeholder="(123) 123-1234")
+        label(for="city") City:
+        input(type="text" id="City" name="city" placeholder="Salt Lake City")
+        label(for="state") State:
+        input(type="text" id="State" name="state" onkeyup="this.value = this.value.toUpperCase();" placeholder="UT" maxlength=2)
+        label(for="country") Country:
+        input(type="text" id="Country" name="country" placeholder="USA")
         div(id="Errors")
-        input(type="submit" id="Submit")
+        input(type="submit" id="Create!")
     script(src="../accountScript.js")

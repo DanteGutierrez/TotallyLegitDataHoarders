@@ -17,6 +17,7 @@ const bioRegex = /^.{0,256}$/;
 const dobRegex = /^\d{4}-\d{2}-\d{2}$/;
 const emailRegex = /^.+@.{2,}\..{2,}$/;
 const numberRegex = /^\(\d{3}\) \d{3}-\d{4}$/;
+const stateRegex = /^[A][LKRSZ]|[C][AOT]|[D][CE]|[F][LM]|[G][AU]|[H][I]|[I][ADLN]|[K][SY]|[L][A]|[M][ADEHINOPST]|[N][CDEHJMVY]|[O][HKR]|[P][ARW]|[R][I]|[S][CD]|[T][NX]|[U][T]|[V][AIT]|[W][AIVY]$/i;
 
 let errors = false;
 
@@ -50,6 +51,10 @@ const check = () => {
     if (!numberRegex.test(phone.value)) {
         errors = true;
         errorMessage += "Your phone numbers must be in '(123) 123-1234' <br/>";
+    }
+    if (!stateRegex.test(state.value)) {
+        error = true;
+        errorMessage += "You need to have a valid state <br/>";
     }
     errorElement.innerHTML = errorMessage;
 }

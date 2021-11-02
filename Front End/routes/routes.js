@@ -27,7 +27,7 @@ const getRandomResult = (resultList) => {
 };
 
 exports.account = async (req, res) => {
-    let resultList = req.query.id != undefined ? await findResult("accounts", {_id: req.query.id}) : await findResult("accounts", {});
+    let resultList = req.query.id != undefined ? await findResult("accounts", {_id: ObjectId(req.query.id)}) : await findResult("accounts", {});
     let result = getRandomResult(resultList);
     let bonusList = await findResult("following", {followed: result.profile.username});
     res.render('account', {
@@ -37,7 +37,7 @@ exports.account = async (req, res) => {
     });
 };
 exports.post = async (req, res) => {
-    let resultList = req.query.id != undefined ? await findResult("posts", { _id: req.query.id }) : await findResult("posts", {});
+    let resultList = req.query.id != undefined ? await findResult("posts", { _id: ObjectId(req.query.id)}) : await findResult("posts", {});
     let result = getRandomResult(resultList);
     let bonusList = await findResult("comments", {postid: result._id});
     res.render('post', {
@@ -67,17 +67,18 @@ exports.postCreate = (req, res) => {
 };
 exports.postedAccount = async (req, res) => {
     let date = new Date();
+    let currentDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
     let account = {
         profile: {
-            username: req.body.name,
+            username: req.body.username,
             picture: "BLOB",
             bio: req.body.bio
         },
-        creationdate: { $toDate: date.getDate() },
+        creationdate: new Date(new Date(currentDate).toISOString()),
         pii: {
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            dob: { $toDate: req.body.dob },
+            firstname: req.body.fname,
+            lastname: req.body.lname,
+            dob: new Date(new Date(req.body.dob).toISOString()),
             email: req.body.email,
             phone: req.body.phone,
             location: {
@@ -88,9 +89,31 @@ exports.postedAccount = async (req, res) => {
         }
     };
     let result = await insertData("accounts", account);
-    res.redirect("/account");
+    res.redirect(`/account?id=${result.insertedId.toString()}`);
 };
-exports.postedPost = (req, res) => {
-
+exports.postedPost = async (req, res) => {
+    let post = {
+        poster: req.body.poster,
+        picture: "BLOB",
+        desc: req.body.desc
+    }
+    let result = await insertData("posts", post);
+    res.redirect(`/post?id=${result.insertedId.toString()}`);
 };
-
+exports.followedAccount = async (req, res) => {
+    let follow = {
+        followed: req.body.followed,
+        follower: req.body.follower
+    };
+    let result = await insertData("following", follow);
+    res.redirect(`account?id=${req.query.id}`);
+};
+exports.commentedPost = async (req, res) => {
+    let comment = {
+        postid: ObjectId(req.body.postid),
+        commenter: req.body.commenter,
+        words: req.body.words
+    };
+    let result = await insertData("comments", comment);
+    res.redirect(`post?id=${req.query.id}`);
+};

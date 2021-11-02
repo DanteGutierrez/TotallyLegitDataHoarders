@@ -42,6 +42,4 @@ docker cp dbt230_pg_wthacker:/var/lib/postgresql/profile.json C:\Users\wthacker\
 
 # create table data_gen.users(id serial primary key, name varchar, email varchar, sign_up_date date, phone varchar);
 # insert into data_gen.users (name, email, sign_up_date, phone) values ('name'||generate_series(1,30000), 'name'||generate_series(1,30000)||'@gmail.com', now(), '123-456-7890');
-
-
-copy *** to facestagram.***
+# copy *** to facestagram.***

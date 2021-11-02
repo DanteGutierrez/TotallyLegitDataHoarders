@@ -1,0 +1,47 @@
+# generated in Postgres within a table titled "testdata"
+
+psql -U postgres
+\c testdata
+create schema facestagram
+
+----
+# accounts
+
+# profiles
+create table facestagram.profile (id serial primary key, username varchar, bio varchar(500), creationdate date);
+insert into facestagram.profile (username, bio) values ('thenumber'||generate_series(1,30000), 'Hey there! I am number '||generate_series(1,30000)||' and this is my bio.', now());
+
+#pii
+create table facestagram.pii (id serial primary key, firstname varchar, lastname varchar, dob date, email varchar, phone varchar, location varchar);
+insert into facestagram.pii (firstname, lastname, dob, email, phone, location) values ('firstname'||generate_series(1,30000), 'lastname'||generate_series(1,30000), '2000-01-01', 'firstinitiallastname'||generate_series(1,30000)||'@hotmail.com', '123-456-7890', 'Salt Lake City');
+
+# location
+create table facestagram.location (city varchar, state varchar(2), country varchar);
+insert into facestagram.location (city, state, country) values ('Salt Lake City', 'UT', 'United States');
+
+----
+# following
+
+create table facestagram.following (followed varchar, follower varchar);
+insert into facestagram.following (followed, follower) values ('firstinitiallastname'||generate_series(1,15000), 'firstinitiallastname'||generate_series(15001,30000));
+
+----
+# posts
+
+create table facestagram.posts (poster varchar, description varchar);
+insert into facestagram.posts (poster, description) values ('firstinitiallastname'||generate_series(1,30000), 'This is my very first post! #soexcited');
+
+----
+# exporting to json
+copy (select row_to_json(t) from (select id, username, bio from facestagram.profile) t) to '/var/lib/postgresql/profile.json';
+docker cp dbt230_pg_wthacker:/var/lib/postgresql/profile.json C:\Users\wthacker\Downloads
+# repeat for all files
+
+
+
+
+# create table data_gen.users(id serial primary key, name varchar, email varchar, sign_up_date date, phone varchar);
+# insert into data_gen.users (name, email, sign_up_date, phone) values ('name'||generate_series(1,30000), 'name'||generate_series(1,30000)||'@gmail.com', now(), '123-456-7890');
+
+
+copy *** to facestagram.***

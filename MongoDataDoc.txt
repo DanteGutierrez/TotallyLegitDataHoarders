@@ -7,17 +7,9 @@ create schema facestagram
 ----
 # accounts
 
-# profiles
-create table facestagram.profile (id serial primary key, username varchar, bio varchar(500), creationdate date);
-insert into facestagram.profile (username, bio) values ('thenumber'||generate_series(1,30000), 'Hey there! I am number '||generate_series(1,30000)||' and this is my bio.', now());
-
-#pii
-create table facestagram.pii (id serial primary key, firstname varchar, lastname varchar, dob date, email varchar, phone varchar, location varchar);
-insert into facestagram.pii (firstname, lastname, dob, email, phone, location) values ('firstname'||generate_series(1,30000), 'lastname'||generate_series(1,30000), '2000-01-01', 'firstinitiallastname'||generate_series(1,30000)||'@hotmail.com', '123-456-7890', 'Salt Lake City');
-
-# location
-create table facestagram.location (city varchar, state varchar(2), country varchar);
-insert into facestagram.location (city, state, country) values ('Salt Lake City', 'UT', 'United States');
+# profiles, pii, location
+create table facestagram.profile (id serial primary key, firstname varchar, lastname varchar, dob date, email varchar, phone varchar, city varchar, state varchar(2), country varchar, username varchar, bio varchar(500), creationdate date);
+insert into facestagram.profile (firstname, lastname, dob, email, phone, city, state, country, username, bio, creationdate) values ('firstname'||generate_series(1,30000), 'lastname'||generate_series(1,30000), '2000-01-01', 'firstinitiallastname'||generate_series(1,30000)||'@hotmail.com', '123-456-7890', 'Salt Lake City', 'UT', 'United States', 'thenumber'||generate_series(1,30000), 'Hey there! I am number '||generate_series(1,30000)||' and this is my bio.', now());
 
 ----
 # following

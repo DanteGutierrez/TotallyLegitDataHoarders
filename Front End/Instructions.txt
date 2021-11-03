@@ -22,6 +22,7 @@ but yours may be different.
 
 If the port is different you have to go into: Front End > routes > routes.js and edit the
 line: const url = 'mongodb://localhost:27017'; change the port to whatever your mongo is set to.
+**If you are using a cluster, you want to put the port and "/?directConnection=true"**
 
 After that you can un-comment all the commented lines on that file, save it, and reload the webpage on localhost:3000
 

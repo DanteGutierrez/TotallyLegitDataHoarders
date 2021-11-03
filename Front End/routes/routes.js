@@ -4,7 +4,10 @@ const client = new MongoClient(url);
 const dbName = 'test';
 const db = client.db(dbName);
 
-exports.index = (req, res) => {
+exports.index = async (req, res) => {
+    // await addGeneratedAccounts();
+    // await addGeneratedPosts();
+    // await addGeneratedFollowings();
     res.render('index', {
         title: "Home"
     });
@@ -54,6 +57,13 @@ const insertData = async (collectionName, data) => {
     client.close();
     return insertResult;
 };
+
+const dropCollection = async (collectionName) => {
+    let collection = db.collection(collectionName);
+    await client.connect();
+    await collection.drop();
+    client.close();
+}
 
 exports.accountCreate = (req, res) => {
     res.render('createAccount', {
@@ -117,3 +127,83 @@ exports.commentedPost = async (req, res) => {
     let result = await insertData("comments", comment);
     res.redirect(`post?id=${req.query.id}`);
 };
+
+const insertDataSet = async (collectionName, data) => {
+    let collection = db.collection(collectionName);
+    await client.connect();
+    const insertResult = await collection.insertMany(data);
+    client.close();
+    return insertResult;
+};
+
+// const addGeneratedAccounts = async () => {
+//     await dropCollection("accounts");
+//     const profile = require("../../Back End/Generated Data/profile.json");
+//     const pii = require("../../Back End/Generated Data/pii.json");
+//     const location = require("../../Back End/Generated Data/location.json");
+//     let date = new Date();
+//     let accounts = [];
+//     let currentDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+//     if (profile.length == pii.length) {
+//         for (let i = 0; i < profile.length; i++) {
+//             let account = {
+//                 profile: {
+//                     username: profile[i].username,
+//                     picture: "BLOB",
+//                     bio: profile[i].bio
+//                 },
+//                 creationdate: new Date(new Date(currentDate).toISOString()),
+//                 pii: {
+//                     firstname: pii[i].firstname,
+//                     lastname: pii[i].lastname,
+//                     dob: new Date(new Date(pii[i].dob).toISOString()),
+//                     email: pii[i].email,
+//                     phone: pii[i].phone,
+//                     location: {
+//                         city: location.city,
+//                         state: location.state,
+//                         country: location.country
+//                     }
+//                 }
+//             };
+//             accounts.push(account);
+//         }
+//     }
+//     await insertDataSet("accounts", accounts);
+// };
+
+// const addGeneratedPosts = async () => {
+//     await dropCollection("posts");
+//     const postData = require("../../Back End/Generated Data/posts.json");
+//     let posts = [];
+//     for (let i = 0; i < postData.length; i++) {
+//         let post = {
+//             poster: postData[i].poster,
+//             picture: "BLOB",
+//             desc: postData[i].description
+//         };
+//         posts.push(post);
+//     }
+//     await insertDataSet("posts", posts);
+// };
+
+// const addGeneratedFollowings = async () => {
+//     await dropCollection("following");
+//     const followingData = require("../../Back End/Generated Data/following.json");
+//     let following = [];
+//     for (let i = 0; i < followingData.length; i++) {
+//         let follow = {
+//             followed: followingData[i].followed,
+//             follower: followingData[i].follower
+//         };
+//         following.push(follow);
+//     }
+//     for (let i = 0; i < followingData.length; i++) {
+//         let follow = {
+//             followed: followingData[i].follower,
+//             follower: followingData[i].followed
+//         };
+//         following.push(follow);
+//     }
+//     await insertDataSet("following", following);
+// };

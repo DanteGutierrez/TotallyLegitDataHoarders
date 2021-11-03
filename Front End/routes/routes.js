@@ -1,5 +1,5 @@
 const { MongoClient, ObjectId } = require('mongodb');
-const url = 'mongodb://localhost:27017';
+const url = 'mongodb://localhost:27017'; //localhost:3011/?directConnection=true
 const client = new MongoClient(url);
 const dbName = 'test';
 const db = client.db(dbName);
@@ -60,9 +60,14 @@ const insertData = async (collectionName, data) => {
 
 const dropCollection = async (collectionName) => {
     let collection = db.collection(collectionName);
-    await client.connect();
-    await collection.drop();
-    client.close();
+    try {
+        await client.connect();
+        await collection.drop();
+        client.close();
+    }
+    catch (error) {
+        client.close();
+    }
 }
 
 exports.accountCreate = (req, res) => {

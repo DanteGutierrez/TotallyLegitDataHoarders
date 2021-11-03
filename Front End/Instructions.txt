@@ -1,0 +1,31 @@
+To get the front end running, first you need to verify you have Node.js
+
+To verify, run the command: npm -version
+
+If there is an error saying npm is not defined, you need to go and download / install npm on your machine.
+
+If npm gave you a version, then you can open this folder in command line, or else this won't work.
+
+Run the command: npm install
+
+This will download all the missing data you need to run the program.
+
+After that command run: nodemon
+
+This will host the website locally on port 3000, so you now can see the page if you go to: localhost:3000
+**DO NOT CLOSE THE COMMAND LINE**
+
+If you try to do anything on the page it won't work because you may not have any data in the mongo database.
+
+After you have your set up mongo database you have to see what port it is running on, default port is 27017,
+but yours may be different.
+
+If the port is different you have to go into: Front End > routes > routes.js and edit the
+line: const url = 'mongodb://localhost:27017'; change the port to whatever your mongo is set to.
+
+After that you can un-comment all the commented lines on that file, save it, and reload the webpage on localhost:3000
+
+My script would have generated the data for you to use. After it ran once, you should re-comment
+only the lines you un-commented so you aren't re-generating that data, there is nothing wrong with it but it is laggy.
+
+You should be able to run tests and play with the website now.

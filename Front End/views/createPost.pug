@@ -5,7 +5,7 @@ block content
         label(for="poster") Who is posting?: 
         input(type="text" id="Poster" name="poster" placeholder="username")
         label(for="desc") Description: 
-        input(type="text" id="Desc" name="desc" placeholder="This is my post")
+        input(type="text" id="Desc" name="desc" placeholder="This is my post" maxlength=500)
         div(id="Errors")
         input(type="submit" value="Post!")
     script(src="../postScript.js")
